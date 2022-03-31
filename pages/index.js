@@ -11,49 +11,57 @@ export default function Home() {
   const [isTipVisible, showTip] = useState(false);
 
   const onEnterQuery = (query) => {
-    search(query)
+    search(query);
     location.hash = `${new URLSearchParams({ query })}`;
   };
 
   useEffect(() => {
-    search(new URLSearchParams(location.hash.slice(1)).get('query')||'');
-}, []);
+    search(new URLSearchParams(location.hash.slice(1)).get('query') || '');
+  }, []);
 
-const onClick = (e) => {
-  copy(e.target.innerText).then(() => {
-    showTip(true);
-    setTimeout(() => { showTip(false); }, 1000);
-  }).catch((e) => {
-    alert(`Could not copy text: ${e}`);
-  });
-};
+  const onClick = (e) => {
+    copy(e.target.innerText).then(() => {
+      showTip(true);
+      setTimeout(() => { showTip(false); }, 1000);
+    }).catch((e) => {
+      alert(`Could not copy text: ${e}`);
+    });
+  };
 
-return (
-  <div className="container">
-    <Head>
-      <title>Alanya Service</title>
-      <link rel="icon" href="/favicon.ico" />
-    </Head>
+  return (
+    <div className="container">
+      <Head>
+        <title>Alanya Service</title>
+        <link rel="icon" href="/favicon.ico" />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-MTSH277N7D"></script>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag("js", new Date());
+          gtag("config", 'G-MTSH277N7D');
+          `}}></script>
+      </Head>
 
-    <main>
-      <Search onInput={onEnterQuery} value={query} />
-      <div className='cards'> {content
-        .map((d) =>
-          <Card
-            {...d}
-            onSearch={onEnterQuery}
-            onClick={onClick}
-            key={d.name}
-            hidden={!d.name.includes(query) && !d.category.includes(query)}
-          />)}
-      </div>
-    </main>
+      <main>
+        <Search onInput={onEnterQuery} value={query} />
+        <div className='cards'> {content
+          .map((d) =>
+            <Card
+              {...d}
+              onSearch={onEnterQuery}
+              onClick={onClick}
+              key={d.name}
+              hidden={!d.name.includes(query) && !d.category.includes(query)}
+            />)}
+        </div>
+      </main>
 
-    <footer>
-      <Tooltip text="Скопировано" hidden={!isTipVisible} />
-    </footer>
+      <footer>
+        <Tooltip text="Скопировано" hidden={!isTipVisible} />
+      </footer>
 
-    <style jsx>{`
+      <style jsx>{`
         .container {
           min-height: 100vh;
           padding: 0 0.5rem;
@@ -95,7 +103,7 @@ return (
         }
       `}</style>
 
-    <style jsx global>{`
+      <style jsx global>{`
         html,
         body {
           padding: 0;
@@ -109,6 +117,6 @@ return (
           box-sizing: border-box;
         }
       `}</style>
-  </div>
-);
+    </div>
+  );
 }

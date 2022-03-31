@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "export": "next export -o docs/",
+    "export": "npm run build && next export -o docs/",
     "build": "next build",
     "start": "next start"
   },
