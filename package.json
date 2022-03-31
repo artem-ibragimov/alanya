@@ -2,7 +2,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "export": "npm run build && next export -o docs/",
+    "export": "npm run build && next export -o docs/ && type NUL > ./docs/.nojekyll",
     "build": "next build",
     "start": "next start"
   },
